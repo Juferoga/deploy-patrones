@@ -1,34 +1,20 @@
-image: node:latest
-
-cache:
-  paths:
-  - node_modules/
-
-stages:
-  - install
-  - build
-  - deploy
-
-install_dependencies:
-  stage: install
-  script:
-    - npm install -g @angular/cli
-    - npm install
-
-build:
-  stage: build
-  script:
-    - ng build --prod
-  artifacts:
-    paths:
-      - dist/
+image: node:8.12.0
 
 pages:
+  cache:
+    paths:
+    - node_modules/
+
   stage: deploy
   script:
-    - mv dist/* public/
+  - npm install -g @angular/cli@6.2.1
+  - npm install
+  - ng build
+  - mkdir -p public
+  - mv dist/out-tsc/* public/
   artifacts:
     paths:
     - public
   only:
   - master
+  - pages
