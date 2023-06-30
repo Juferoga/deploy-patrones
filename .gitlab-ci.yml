@@ -1,4 +1,4 @@
-image: node:8.12.0
+image: node:16.20.0
 
 pages:
   cache:
@@ -16,5 +16,4 @@ pages:
     paths:
     - public
   only:
-  - master
-  - pages
+  - main
