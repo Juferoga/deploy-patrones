@@ -9,11 +9,9 @@ pages:
   script:
   - npm install -g @angular/cli@15.1.4
   - npm install
-  - ng build
-  - mkdir -p public
-  - mv dist/dasp-project/* public/
+  - npm run buildProd
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - main
+    - main
