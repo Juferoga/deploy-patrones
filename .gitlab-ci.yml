@@ -1,13 +1,34 @@
-pages:
-  stage: deploy
-  environment: production
+image: node:latest
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - install
+  - build
+  - deploy
+
+install_dependencies:
+  stage: install
   script:
-    - mkdir .public
-    - cp -r ./* .public
-    - rm -rf public
-    - mv .public public
+    - npm install -g @angular/cli
+    - npm install
+
+build:
+  stage: build
+  script:
+    - ng build --prod
   artifacts:
     paths:
-      - public
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      - dist/
+
+pages:
+  stage: deploy
+  script:
+    - mv dist/* public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
