@@ -7,11 +7,11 @@ pages:
 
   stage: deploy
   script:
-  - npm install -g @angular/cli@6.2.1
+  - npm install -g @angular/cli@15.1.4
   - npm install
   - ng build
   - mkdir -p public
-  - mv dist/out-tsc/* public/
+  - mv dist/dasp-project/* public/
   artifacts:
     paths:
     - public
