@@ -1,3 +1,12 @@
 <p-toast key="grl-toast"></p-toast>
 <router-outlet></router-outlet>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<div class="la-empresa" [ngClass]="isClicked?'la-empresa-active':''">
+  <img src="/assets/icon.png" (click)="isClicked=!isClicked" height="100%" alt="" srcset="" >
+  <div class="la-empresa-select">
+    <select class="form-select form-select-lg" name="" id="">
+      <option selected>Multiplex...</option>
+      <option *ngFor="let item of listMultiplex" [value]="item.pk_id">{{item.t_name}}</option>
+    </select>
+  </div>
+</div>

@@ -49,6 +49,9 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [CheckLoginGuard],
+    data: {
+      allowedRoles: [ROLES.ADMINISTRATOR, ROLES.ADMIN_ADMIN],
+    },
     children: [
       {
         path: 'mi-perfil',
@@ -99,6 +102,36 @@ const routes: Routes = [
       {
         path: 'estadisticas',
         component: StatsComponent
+      }
+    ]
+  },
+  {
+    path: 'app',
+    component: LayoutComponent,
+    canActivate: [CheckLoginGuard],
+    data: {
+      allowedRoles: [ROLES.CLIENTE, ROLES.EMPLEADO],
+    },
+    children: [
+      {
+        path: 'mi-perfil',
+        component: ProfileComponent
+      },
+      {
+        path: 'mi-inventario',
+        component: OnBuildComponent
+      },
+      {
+        path: 'mis-ventas',
+        component: OnBuildComponent
+      },
+      {
+        path: 'mis-compras',
+        component: OnBuildComponent
+      },
+      {
+        path: 'mis-referidos',
+        component: OnBuildComponent
       }
     ]
   },

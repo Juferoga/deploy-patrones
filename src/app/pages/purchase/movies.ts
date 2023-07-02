@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Movies } from 'src/app/core/models/movies/movies.model';
-import { TicketService } from 'src/app/core/services/compra/ticket.service';
-import { MovieService } from 'src/app/core/services/movies/movie.service';
+import { TicketService } from '@services/ticket/ticket.service';
+import { MovieService } from '@services/movies/movie.service';
 
 @Component({
     styleUrls: ["./purchase.component.scss"],

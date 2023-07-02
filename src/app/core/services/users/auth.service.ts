@@ -4,36 +4,35 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { TokenModel } from '../../models/users/token.model';
 
+const opciones = {
+  headers: new HttpHeaders({
+    'Content-Type':'application/json',
+  })
+};
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  headers = new HttpHeaders();
-
-  constructor(private http: HttpClient) {
-    this.headers = this.headers.append('Content-Type', 'application/json');
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.onClean();
   }
 
   onClean(): void{
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('id');
-    sessionStorage.clear();
+    localStorage.removeItem('role');
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.clear();
   }
 
   onLogin(correo: string, pass: string):Observable<TokenModel> {
-    const body = new URLSearchParams();
-    body.set('username', correo);
-    body.set('password', pass); 
+    const body = JSON.stringify({'username':correo, "password":pass});
     return this.http.post<TokenModel>(
-      environment.api + 'token',
-      body.toString(),
-      { headers: {'Content-Type':'application/x-www-form-urlencoded'} }
+      environment.api + 'auth/generate_token/',
+      body,
+      opciones
     );
   }
 
@@ -42,8 +41,8 @@ export class AuthService {
       return true;
     }
 
-    const token = sessionStorage.getItem('token');
-    const role = sessionStorage.getItem('role');
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
 
     if (!token) {
       return false;

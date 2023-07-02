@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TicketService } from '@services/ticket/ticket.service';
 import { MessageService } from 'primeng/api';
-import { Metodopagos } from 'src/app/core/models/metodopagos/metodopagos.model';
-import { TicketService } from 'src/app/core/services/compra/ticket.service';
-import { MetodopagoService } from 'src/app/core/services/metodopagos/metodopago.service';
 
 @Component({
     template: `
@@ -53,37 +51,36 @@ import { MetodopagoService } from 'src/app/core/services/metodopagos/metodopago.
 })
 export class PaymentDemo implements OnInit {
     paymentInformation: any;
-    listPayment: Metodopagos[];
+    listPayment: any[];
     paymentMethodSelected = '';
 
     constructor(
         public ticketService: TicketService, 
         private router: Router,
-        private metodoService: MetodopagoService,
         private messageService: MessageService,
     ) {}
     
     ngOnInit() {
         this.paymentInformation = this.ticketService.ticketInformation.paymentInformation;
-        this.metodoService.getMetodoPagos().subscribe(
-            (data)=>{
-                this.listPayment = data['data'];
-                this.messageService.add({
-                    key: "grl-toast",
-                    severity: "success",
-                    summary: "Consulta exitosa",
-                    detail: "La consulta se realizo correctamente sobre la base de datos - Países Cargados",
-                });
-            },
-            (error)=>{
-                this.messageService.add({
-                    key: "grl-toast",
-                    severity: "error",
-                    summary: "ERROR",
-                    detail: "La consulta se realizo con errores"+error,
-                });
-            }
-        )
+        // this.metodoService.getMetodoPagos().subscribe(
+        //     (data)=>{
+        //         this.listPayment = data['data'];
+        //         this.messageService.add({
+        //             key: "grl-toast",
+        //             severity: "success",
+        //             summary: "Consulta exitosa",
+        //             detail: "La consulta se realizo correctamente sobre la base de datos - Países Cargados",
+        //         });
+        //     },
+        //     (error)=>{
+        //         this.messageService.add({
+        //             key: "grl-toast",
+        //             severity: "error",
+        //             summary: "ERROR",
+        //             detail: "La consulta se realizo con errores"+error,
+        //         });
+        //     }
+        // )
     }
 
     paymentMethod(event){

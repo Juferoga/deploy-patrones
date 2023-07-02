@@ -1,17 +1,8 @@
+import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { User } from "src/app/core/models/users/user.model";
-import { Representantes } from "src/app/core/models/representantes/representantes.model";
 import { UserService } from "src/app/core/services/users/user.service";
-import { RepresentanteService } from "src/app/core/services/representantes/representante.service";
-import { HttpClient } from '@angular/common/http';
-import { Paiss } from "src/app/core/models/paiss/paiss.model";
-import { Regions } from "src/app/core/models/regions/regions.model";
-import { Clasificacions } from "src/app/core/models/clasificacions/clasificacions.model";
-import { RegionService } from "src/app/core/services/regions/region.service";
-import { PaisService } from "src/app/core/services/paiss/pais.service";
-import { ClasificacionService } from "src/app/core/services/clasificacions/clasificacion.service";
-
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html",
@@ -36,23 +27,19 @@ export class UsersComponent {
   statuses: any[];
 	selectedUserType:string=''
 	//Para llenar en representante
-	paisesList: Paiss[];
-	regionesList: Regions[];
-  clasificacionList: Clasificacions[];
+	paisesList: any[];
+	regionesList: any[];
+  clasificacionList: any[];
   // cliente
 	ciudadesList: any;
-	representantesList:Representantes[];
+	representantesList:any[];
   isModeEdited:boolean = false;
 
   constructor(
     private userService: UserService,
-    private regionService: RegionService,
-    private paisService: PaisService,
-    private clasificacionService : ClasificacionService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
 		private http: HttpClient,
-		private representanteService:RepresentanteService
   ) {}
 
   ngOnInit() {
@@ -78,46 +65,6 @@ export class UsersComponent {
         });
       }
     );
-
-    this.paisService.getPaiss().subscribe(
-      (data)=>{
-        this.paisesList = data['data'];
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "success",
-          summary: "Consulta exitosa",
-          detail: "La consulta se realizo correctamente sobre la base de datos - Países Cargados",
-        });
-      },
-      (error)=>{
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "error",
-          summary: "Consulta realizada SIN ÉXITO - Países No cargados",
-          detail: "::: ERROR ::: \n" + error["error"]["detail"],
-        });
-      }
-    )
-
-    this.clasificacionService.getClasificacions().subscribe(
-      (data)=>{
-        this.clasificacionList = data['data'];
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "success",
-          summary: "Consulta exitosa",
-          detail: "La consulta se realizo correctamente sobre la base de datos - Países Cargados",
-        });
-      },
-      (error)=>{
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "error",
-          summary: "Consulta realizada SIN ÉXITO - Países No cargados",
-          detail: "::: ERROR ::: \n" + error["error"]["detail"],
-        });
-      }
-    )
 
     this.statuses = [
       { label: "MASCULINO", value: "M" },
@@ -325,33 +272,9 @@ export class UsersComponent {
 			(data) => {this.ciudadesList = data;},
 			(error) => {console.error(error);}
 		);
-		this.representanteService.getRepresentantes().subscribe({
-			next:(res)=>{
-				this.representantesList = res;
-				console.log(this.representantesList)
-			}
-		})
 	}
 
   onloadRegion(country){
-    this.regionService.getRegion(country.target.value).subscribe(
-      (data)=>{
-        this.regionesList = data['data'];
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "success",
-          summary: "Consulta exitosa",
-          detail: "La consulta se realizo correctamente sobre la base de datos - Regiones Cargadas",
-        });
-      },
-      (error)=>{
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "error",
-          summary: "Consulta realizada SIN ÉXITO - Regiones No cargados",
-          detail: "::: ERROR ::: \n" + error["error"]["detail"],
-        });
-      }
-    )
+    
   }
 }

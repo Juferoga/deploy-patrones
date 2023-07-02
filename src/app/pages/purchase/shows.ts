@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Product } from 'src/app/core/models/products/product.model';
-import { BodegaService } from 'src/app/core/services/bodegas/bodega.service';
-import { TicketService } from 'src/app/core/services/compra/ticket.service';
-import { OrderService } from 'src/app/core/services/order/order.service';
-import { ProductService } from 'src/app/core/services/products/product.service';
+import { TicketService } from '@services/ticket/ticket.service';
 
 @Component({
     template: `
@@ -30,15 +26,11 @@ export class ShowsDemo implements OnInit {
     constructor(
         public ticketService: TicketService, 
         private router: Router,
-        private messageService: MessageService,
-        private productService: ProductService,
-        private orderService:OrderService,
-        private bodegaService:BodegaService
     ) {}
 
     products: any;
-    productList : Product[];
-    productListCarrito : Product[];
+    productList : any[];
+    productListCarrito : any[];
 
     ngOnInit() {
         this.products = this.ticketService.ticketInformation.products;
@@ -61,25 +53,25 @@ export class ShowsDemo implements OnInit {
 
 				// Añadir la parte de la URL correspondiente a las variables existentes
 				url = `${urlParams}/${url}`;  
-				this.bodegaService.getBodegaInventory(url).subscribe({
-					next: (response) => {
-						this.productList = response["data"];
-						this.messageService.add({
-							key: "grl-toast",
-							severity: "success",
-							summary: "Consulta exitosa",
-							detail: `La consulta de la BODEGA ${url} se realizo correctamente sobre la base de datos`,
-						});
-					},
-					error: (err) => {
-						this.messageService.add({
-							key: "grl-toast",
-							severity: "error",
-							summary: `Consulta de la BODEGA ${url} realizada SIN ÉXITO`,
-							detail: "::: ERROR ::: \n" + err["error"]["detail"],
-						});
-					}
-				});
+				// this.bodegaService.getBodegaInventory(url).subscribe({
+				// 	next: (response) => {
+				// 		this.productList = response["data"];
+				// 		this.messageService.add({
+				// 			key: "grl-toast",
+				// 			severity: "success",
+				// 			summary: "Consulta exitosa",
+				// 			detail: `La consulta de la BODEGA ${url} se realizo correctamente sobre la base de datos`,
+				// 		});
+				// 	},
+				// 	error: (err) => {
+				// 		this.messageService.add({
+				// 			key: "grl-toast",
+				// 			severity: "error",
+				// 			summary: `Consulta de la BODEGA ${url} realizada SIN ÉXITO`,
+				// 			detail: "::: ERROR ::: \n" + err["error"]["detail"],
+				// 		});
+				// 	}
+				// });
     }
     
     prevPage() {
@@ -98,19 +90,19 @@ export class ShowsDemo implements OnInit {
 				cantidad: product.cantidad,
 				precio_unitario: product.precio
 			}
-        this.orderService.addItemOrder(data).subscribe(
-            (data)=> {
-                this.productListCarrito = data['data'];
-            },
-            (err)=>{
-                this.messageService.add({
-                    key: "grl-toast",
-                    severity: "error",
-                    summary: "ERROR",
-                    detail: "La consulta se realizo con errores"+err,
-                });
-            }
-        )
+        // this.orderService.addItemOrder(data).subscribe(
+        //     (data)=> {
+        //         this.productListCarrito = data['data'];
+        //     },
+        //     (err)=>{
+        //         this.messageService.add({
+        //             key: "grl-toast",
+        //             severity: "error",
+        //             summary: "ERROR",
+        //             detail: "La consulta se realizo con errores"+err,
+        //         });
+        //     }
+        // )
     }
 
     eliminarCarrito(id){

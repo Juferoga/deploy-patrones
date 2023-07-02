@@ -1,11 +1,7 @@
 import { Component } from "@angular/core";
 import { MenuItem, MessageService } from "primeng/api";
 import { Subscription } from "rxjs";
-import { factura } from "src/app/core/models/factura/factura.model";
-import { Pedidos } from "src/app/core/models/pedidos/pedidos.model";
-import { TicketService } from "src/app/core/services/compra/ticket.service";
-import { FacturaService } from "src/app/core/services/factura/factura.service";
-import { PedidoService } from "src/app/core/services/pedidos/pedido.service";
+import { TicketService } from "@services/ticket/ticket.service";
 @Component({
   selector: "app-purchase",
   templateUrl: "./purchase.component.html",
@@ -16,7 +12,7 @@ export class PurchaseComponent {
   selectedPedido: any;
   subscription: Subscription;
   isShowDetails: boolean = false;
-  pedidos: Pedidos[] = [
+  pedidos: any[] = [
     {
       pedido: 1,
       fecha_creacion: new Date(),
@@ -30,7 +26,7 @@ export class PurchaseComponent {
     },
   ];
 
-  factura: factura = {
+  factura: any = {
     N_FACTURA: "F1",
     T_NCLIENTE: "Santiago Ávila Reina",
     F_CREACION: "2023-05-29",
@@ -71,8 +67,6 @@ export class PurchaseComponent {
   constructor(
     public messageService: MessageService,
     public ticketService: TicketService,
-    private pedidoService: PedidoService,
-    private facturaService: FacturaService
   ) {}
 
   ngOnInit() {
@@ -141,26 +135,8 @@ export class PurchaseComponent {
   }
 
   getFactura(id: number) {
-    this.facturaService.getFactura(id).subscribe(
-      (factura) => {
-        this.factura = factura["data"];
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "success",
-          summary: "Consulta exitosa",
-          detail: "La consulta se realizo correctamente sobre la base de datos",
-        });
-      },
-      (err) => {
-        this.messageService.add({
-          key: "grl-toast",
-          severity: "error",
-          summary: "Consulta realizada SIN ÉXITO",
-          detail: "::: ERROR ::: \n" + err["error"]["detail"],
-        });
-      }
-    );
   }
+
   onPedidoSelect(event: any) {
     this.selectedPedido = event;
     this.isShowDetails = true;

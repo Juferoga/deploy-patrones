@@ -58,7 +58,7 @@ import { PaymentDemo } from './pages/purchase/payment';
 import { MoviesDemo } from './pages/purchase/movies';
 import { ShowsDemo } from './pages/purchase/shows';
 import { ConfirmationDemo } from './pages/purchase/confirmation';
-import { TicketService } from './core/services/compra/ticket.service';
+import { TicketService } from '@services/ticket/ticket.service';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SplitterModule } from 'primeng/splitter';
 import { DividerModule } from 'primeng/divider';

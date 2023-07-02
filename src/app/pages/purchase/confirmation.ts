@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Messages } from 'primeng/messages';
-import { TicketService } from 'src/app/core/services/compra/ticket.service';
-import { OrderService } from 'src/app/core/services/order/order.service';
+import { TicketService } from '@services/ticket/ticket.service';
 
 @Component({
     template: `
@@ -84,7 +83,6 @@ export class ConfirmationDemo implements OnInit {
     constructor(
         public ticketService: TicketService, 
         private router: Router,
-        private orderService:OrderService,
         private messageService:MessageService) {}
 
     ngOnInit() {
@@ -105,25 +103,6 @@ export class ConfirmationDemo implements OnInit {
     }
     
     sendRating() {
-        this.orderService.rateOrder(this.cal).subscribe(
-            (data)=>{
-                this.messageService.add({
-                    key: "grl-toast",
-                    severity: "success",
-                    summary: "Consulta exitosa",
-                    detail: "La consulta se realizo correctamente sobre la base de datos - Países Cargados",
-                });
-                this.visible = false; 
-            },
-            (error)=>{
-                this.messageService.add({
-                    key: "grl-toast",
-                    severity: "error",
-                    summary: "ERROR",
-                    detail: "La consulta se realizo con errores"+error['detail'],
-                });
-            }
-        )
     }
 
 }
